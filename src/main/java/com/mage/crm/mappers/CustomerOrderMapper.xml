@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mage.crm.dao.CustomerOrderDao">
+    <resultMap id="BaseResultMap" type="com.mage.crm.vo.CustomerOrder">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="cus_id" jdbcType="INTEGER" property="cusId" />
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+        <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="state" jdbcType="INTEGER" property="state" />
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+        <result column="is_valid" jdbcType="INTEGER" property="isValid" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, cus_id, order_no, order_date, address, state, create_date, update_date, is_valid
+    </sql>
+
+    <select id="queryOrdersByCid" parameterType="customerOrderQuery" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_customer_order
+        where cus_id = #{cid,jdbcType=INTEGER} and is_valid =1
+    </select>
+    <select id="queryOrderInfoById" parameterType="int" resultType="map">
+        SELECT
+            c.order_no AS 'orderNo',
+            c.order_date AS 'orderDate',
+            c.address AS 'address',
+            c.state,
+            sum(o.sum) AS 'total'
+        FROM
+            t_customer_order c
+        LEFT JOIN t_order_details o ON c.order_no = o.order_id
+        WHERE o.order_id=#{orderId}
+        GROUP BY
+            o.order_id
+    </select>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mage.crm.dao.SaleChanceDao">
+    <sql id="sale_chance_column">
+        id,customer_name as customerName,chance_source chanceSource,cgjl,overview,link_man as linkMan,
+        link_phone as linkPhone,description,create_man as createMan,assign_man as  assignMan,
+        assign_time as assignTime,state,dev_result as devResult,is_valid as isValid,create_date as createDate,
+        update_date as updateDate
+    </sql>
+    <select id="querySaleChancesByParams" parameterType="saleChanceQuery" resultType="saleChance">
+        SELECT
+        <include refid="sale_chance_column"/>
+        FROM
+        t_sale_chance
+        <where>
+            is_valid=1
+            <if test="createMan!=null and createMan!=''">
+                AND create_man LIKE concat('%',#{createMan},'%')
+            </if>
+            <if test="customerName!=null and customerName!=''">
+                AND customer_name LIKE concat('%',#{customerName},'%')
+            </if>
+            <if test="state!=null and state!=''">
+                AND state =#{state}
+            </if>
+            <if test="createDate!=null and createDate!=''">
+                <![CDATA[
+            AND create_date <=#{createDate}
+         ]]>
+            </if>
+        </where>
+    </select>
+    <update id="delete">
+        UPDATE t_sale_chance SET is_valid=0 where id IN
+        <foreach collection="array" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <select id="querySaleChancesById" parameterType="int" resultType="saleChance">
+        SELECT <include refid="sale_chance_column"/>
+        FROM t_sale_chance
+        where is_valid=1 AND id=#{id}
+    </select>
+    <update id="updateDevResult" >
+        UPDATE t_sale_chance SET  dev_result=#{dev},update_date=now() WHERE id=#{id }
+    </update>
+</mapper>

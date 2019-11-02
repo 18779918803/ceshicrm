@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mage.crm.dao.CustomerRepriDao">
+    <resultMap id="BaseResultMap" type="com.mage.crm.vo.CustomerReprieve">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="loss_id" jdbcType="INTEGER" property="lossId" />
+        <result column="measure" jdbcType="VARCHAR" property="measure" />
+        <result column="is_valid" jdbcType="INTEGER" property="isValid" />
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, loss_id, measure, is_valid, create_date, update_date
+    </sql>
+
+    <select id="customerReprieveByLossId" parameterType="string" resultMap="BaseResultMap">
+        SELECT  <include refid="Base_Column_List"/>
+        FROM  t_customer_reprieve
+        WHERE loss_id=#{lossId} AND  is_valid=1
+    </select>
+    <insert id="insertReprive" parameterType="com.mage.crm.vo.CustomerReprieve">
+        insert into t_customer_reprieve (id, loss_id, measure,
+        is_valid, create_date, update_date)
+        values (#{id,jdbcType=INTEGER}, #{lossId,jdbcType=INTEGER}, #{measure,jdbcType=VARCHAR},
+        #{isValid,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateReprive" parameterType="com.mage.crm.vo.CustomerReprieve">
+        update t_customer_reprieve
+        <set>
+            <if test="lossId != null">
+                loss_id = #{lossId,jdbcType=INTEGER},
+            </if>
+            <if test="measure != null">
+                measure = #{measure,jdbcType=VARCHAR},
+            </if>
+            <if test="isValid != null">
+                is_valid = #{isValid,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <delete id="delete" parameterType="java.lang.Integer">
+        update t_customer_reprieve
+        set is_valid = 0
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

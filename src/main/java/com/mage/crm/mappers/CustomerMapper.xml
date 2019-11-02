@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mage.crm.dao.CustomerDao">
+    <resultMap id="BaseResultMap" type="com.mage.crm.vo.Customer">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="khno" property="khno" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="area" property="area" jdbcType="VARCHAR"/>
+        <result column="cus_manager" property="cusManager" jdbcType="VARCHAR"/>
+        <result column="level" property="level" jdbcType="VARCHAR"/>
+        <result column="myd" property="myd" jdbcType="VARCHAR"/>
+        <result column="xyd" property="xyd" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="post_code" property="postCode" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="fax" property="fax" jdbcType="VARCHAR"/>
+        <result column="web_site" property="webSite" jdbcType="VARCHAR"/>
+        <result column="yyzzzch" property="yyzzzch" jdbcType="VARCHAR"/>
+        <result column="fr" property="fr" jdbcType="VARCHAR"/>
+        <result column="zczj" property="zczj" jdbcType="VARCHAR"/>
+        <result column="nyye" property="nyye" jdbcType="VARCHAR"/>
+        <result column="khyh" property="khyh" jdbcType="VARCHAR"/>
+        <result column="khzh" property="khzh" jdbcType="VARCHAR"/>
+        <result column="dsdjh" property="dsdjh" jdbcType="VARCHAR"/>
+        <result column="gsdjh" property="gsdjh" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="is_valid" property="isValid" jdbcType="INTEGER"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, khno, name, area, cus_manager as cusManager, level, myd, xyd, address, post_code as postCode, phone, fax,
+        web_site as webSite, yyzzzch, fr, zczj, nyye, khyh, khzh, dsdjh, gsdjh, state, is_valid, create_date,
+        update_date
+    </sql>
+    <select id="queryCustomersByParams" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_customer
+        <where>
+            is_valid=1
+            <if test="khno!=null and khno!=''">
+                and khno LIKE concat('%',#{khno},'%')
+            </if>
+            <if test="name!=null and name!=''">
+                and name LIKE concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+    <insert id="insert" parameterType="customer">
+        insert into t_customer (id, khno, name,
+        area, cus_manager, level,
+        myd, xyd, address,
+        post_code, phone, fax,
+        web_site, yyzzzch, fr,
+        zczj, nyye, khyh, khzh,
+        dsdjh, gsdjh, state,
+        is_valid, create_date, update_date
+        )
+        values (#{id,jdbcType=INTEGER}, #{khno,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+        #{area,jdbcType=VARCHAR}, #{cusManager,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR},
+        #{myd,jdbcType=VARCHAR}, #{xyd,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+        #{postCode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR},
+        #{webSite,jdbcType=VARCHAR}, #{yyzzzch,jdbcType=VARCHAR}, #{fr,jdbcType=VARCHAR},
+        #{zczj,jdbcType=VARCHAR}, #{nyye,jdbcType=VARCHAR}, #{khyh,jdbcType=VARCHAR}, #{khzh,jdbcType=VARCHAR},
+        #{dsdjh,jdbcType=VARCHAR}, #{gsdjh,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER},
+        #{isValid,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="update" parameterType="customer">
+        update t_customer
+        <set>
+            <if test="khno != null">
+                khno = #{khno,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                area = #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="cusManager != null">
+                cus_manager = #{cusManager,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="myd != null">
+                myd = #{myd,jdbcType=VARCHAR},
+            </if>
+            <if test="xyd != null">
+                xyd = #{xyd,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode != null">
+                post_code = #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="fax != null">
+                fax = #{fax,jdbcType=VARCHAR},
+            </if>
+            <if test="webSite != null">
+                web_site = #{webSite,jdbcType=VARCHAR},
+            </if>
+            <if test="yyzzzch != null">
+                yyzzzch = #{yyzzzch,jdbcType=VARCHAR},
+            </if>
+            <if test="fr != null">
+                fr = #{fr,jdbcType=VARCHAR},
+            </if>
+            <if test="zczj != null">
+                zczj = #{zczj,jdbcType=VARCHAR},
+            </if>
+            <if test="nyye != null">
+                nyye = #{nyye,jdbcType=VARCHAR},
+            </if>
+            <if test="khyh != null">
+                khyh = #{khyh,jdbcType=VARCHAR},
+            </if>
+            <if test="khzh != null">
+                khzh = #{khzh,jdbcType=VARCHAR},
+            </if>
+            <if test="dsdjh != null">
+                dsdjh = #{dsdjh,jdbcType=VARCHAR},
+            </if>
+            <if test="gsdjh != null">
+                gsdjh = #{gsdjh,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="isValid != null">
+                is_valid = #{isValid,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER} and is_valid = 1
+    </update>
+    <delete id="delete">
+        UPDATE t_customer SET is_valid=0 WHERE id IN
+        <foreach collection="array" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="queryCustomerLoss" resultType="customerLoss">
+        <![CDATA[
+        SELECT
+        khno as cusNo,name as cusName,cus_manager as cusManager ,o.order_date as
+           lastOrderTime
+        FROM
+            t_customer c
+        left JOIN t_customer_order o on c.id = o.cus_id
+        WHERE
+           DATE_ADD(c.create_date, INTERVAL 6 DAY) < NOW()
+        and c.is_valid = 1 and c.state = 0
+        AND c.id not in (
+        SELECT DISTINCT
+           o.cus_id
+        FROM
+           t_customer_order o
+        LEFT JOIN t_customer c ON c.id = o.cus_id
+        WHERE
+            DATE_ADD(o.order_date, INTERVAL 6 DAY) > NOW()
+        )
+                ]]>
+    </select>
+    <select id="queryCustomersContribution" parameterType="customerGCQuery" resultType="customerDto">
+        select c.name,sum(sum) as total
+        from t_order_details od
+        LEFT JOIN t_customer_order co  on od.order_id = co.order_no
+        LEFT JOIN t_customer c on co.cus_id = c.id
+        where od.is_valid = 1 and co.is_valid = 1 and c.is_valid = 1
+        <if test="customerName != null  and  customerName !='' ">
+            and c.name like concat('%',#{customerName},'%')
+        </if>
+        group by co.cus_id
+        ORDER BY total desc
+    </select>
+    <select id="queryCustomerGC" resultType="customerDto">
+        SELECT count(*) as COUNT ,level from t_customer where is_valid=1 GROUP BY LEVEL
+    </select>
+</mapper>

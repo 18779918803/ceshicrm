@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mage.crm.dao.UserRoleDao">
+    <insert id="insertBacth" parameterType="list">
+        insert into t_user_role(user_id,role_id,create_date,update_date,is_valid)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userId},#{item.roleId},#{item.createDate},#{item.updateDate},1)
+        </foreach>
+    </insert>
+    <select id="queryRoleCountsByUserId" parameterType="string" resultType="int">
+        select count(1)
+        from t_user_role
+        where user_id=#{id}
+    </select>
+    <delete id="deleteRolesByUserId" parameterType="string">
+        delete from t_user_role
+        where user_id = #{id}
+    </delete>
+</mapper>

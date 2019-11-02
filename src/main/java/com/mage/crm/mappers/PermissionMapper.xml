@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mage.crm.dao.PermissionDao">
+    <insert id="insertBatch" parameterType="list">
+        insert into t_permission (role_id,module_id,acl_value,create_date,update_date) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleId},#{item.moduleId},#{item.aclValue},#{item.createDate},#{item.updateDate})
+        </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mage.crm.dao.CustomerLossDao">
+    <resultMap id="BaseResultMap" type="com.mage.crm.vo.CustomerLoss" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="cus_no" property="cusNo" jdbcType="VARCHAR" />
+        <result column="cus_name" property="cusName" jdbcType="VARCHAR" />
+        <result column="cus_manager" property="cusManager" jdbcType="VARCHAR" />
+        <result column="last_order_time" property="lastOrderTime" jdbcType="TIMESTAMP" />
+        <result column="confirm_loss_time" property="confirmLossTime" jdbcType="TIMESTAMP" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+        <result column="loss_reason" property="lossReason" jdbcType="VARCHAR" />
+        <result column="is_valid" property="isValid" jdbcType="TINYINT" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, cus_no, cus_name, cus_manager, last_order_time, confirm_loss_time, state, loss_reason,
+        is_valid, create_date, update_date
+    </sql>
+    <insert id="insertBatch" parameterType="list">
+        insert into
+        t_customer_loss(cus_no,cus_name,cus_manager,last_order_time,state,is_valid,
+        create_date,update_date) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.cusNo},#{item.cusName},#{item.cusManager},#{item.lastOrderTime},
+            #{item.state},#{item.isValid},#{item.createDate} ,#{item.updateDate})
+        </foreach>
+    </insert>
+    <select id="queryCustomerLossesByParams" resultMap="BaseResultMap"
+            parameterType="customerLossQuery">
+        SELECT <include refid="Base_Column_List" />
+        from t_customer_loss
+        <where>
+            is_valid =1
+            <if test="customerManager != null and customerManager != ''">
+                and cus_manager like concat('%',#{customerManager},'%')
+            </if>
+            <if test="customerNum != null and customerNum != ''">
+                and cus_no like concat('%',#{customerNum},'%')
+            </if>
+            <if test="customerName != null and customerName != ''">
+                and cus_name like concat('%',#{customerName},'%')
+            </if>
+            <if test="time != null and time!='' ">
+                <![CDATA[
+and create_date <= #{time}
+]]>
+            </if>
+        </where>
+    </select>
+    <select id="queryCustomerLossesById" parameterType="int" resultType="map">
+        select
+        id,cus_name as cusName,
+        cus_no as cusNo,
+        cus_manager as cusManager,
+        state,loss_reason as lossReason,
+        DATE_FORMAT(last_order_time,'%Y-%m-%d') as lastOrderTime,
+        DATE_FORMAT(confirm_loss_time,'%Y-%m-%d') as confirmLossTime
+        from t_customer_loss
+        where
+        is_valid =1 and id = #{id}
+    </select>
+</mapper>
