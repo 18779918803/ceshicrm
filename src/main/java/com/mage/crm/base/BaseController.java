@@ -1,6 +1,5 @@
 package com.mage.crm.base;
 
-
 import com.mage.crm.model.MessageModel;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
