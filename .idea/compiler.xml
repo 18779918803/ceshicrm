@@ -7,12 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="crm" />
-        <module name="shsxt_crm" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="crm" target="1.8" />
-      <module name="shsxt_crm" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
